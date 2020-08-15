@@ -1,0 +1,427 @@
+MariaDB [z1850638]> drop table dogs;
+ERROR 1051 (42S02): Unknown table 'z1850638.dogs'
+MariaDB [z1850638]> drop table visits;
+ERROR 1051 (42S02): Unknown table 'z1850638.visits'
+MariaDB [z1850638]> 
+MariaDB [z1850638]> create table dogs(dog_id int primary key AUTO_INCREMENT, 
+    -> breed varchar(255) NOT NULL, name varchar(255) NOT NULL);
+Query OK, 0 rows affected (0.25 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> insert into dogs(beed, name) values("pitbull", "Buddy");
+ERROR 1054 (42S22): Unknown column 'beed' in 'field list'
+MariaDB [z1850638]> insert into dogs(beed, name) values("chihuahua", "killer");
+ERROR 1054 (42S22): Unknown column 'beed' in 'field list'
+MariaDB [z1850638]> insert into dogs(beed, name) values("bulldog", "Hercules");
+ERROR 1054 (42S22): Unknown column 'beed' in 'field list'
+MariaDB [z1850638]> insert into dogs(beed, name) values("gloden retreiver", "Chunk");
+ERROR 1054 (42S22): Unknown column 'beed' in 'field list'
+MariaDB [z1850638]> insert into dogs(beed, name) values("pug", "Nala");
+ERROR 1054 (42S22): Unknown column 'beed' in 'field list'
+MariaDB [z1850638]> 
+MariaDB [z1850638]> DESCRIBE dogs;
++--------+--------------+------+-----+---------+----------------+
+| Field  | Type         | Null | Key | Default | Extra          |
++--------+--------------+------+-----+---------+----------------+
+| dog_id | int(11)      | NO   | PRI | NULL    | auto_increment |
+| breed  | varchar(255) | NO   |     | NULL    |                |
+| name   | varchar(255) | NO   |     | NULL    |                |
++--------+--------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> SELECT * FROM dogs;
+Empty set (0.01 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> create table visits (visit_id int NOT NULL AUTO_INCREMENT, dog_id int NOT NULL, visit_date DATE NOT NULL, 
+    -> PRIMARY KEY(visit_id), FOREIGN KEY (dog_id) REFERENCES dogs(dog_id));
+Query OK, 0 rows affected (0.22 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (1, "2019-03-09");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (1, "2019-08-13");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (2, "2019-07-14");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (2, "2019-07-08");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (3, "2018-12-09");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (3, "2018-06-26");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (4, "2018-04-27");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (5, "2019-06-22");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (5, "2019-01-01");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (4, "2019-11-10");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> 
+MariaDB [z1850638]> DESCRIBE visits;
++------------+---------+------+-----+---------+----------------+
+| Field      | Type    | Null | Key | Default | Extra          |
++------------+---------+------+-----+---------+----------------+
+| visit_id   | int(11) | NO   | PRI | NULL    | auto_increment |
+| dog_id     | int(11) | NO   | MUL | NULL    |                |
+| visit_date | date    | NO   |     | NULL    |                |
++------------+---------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> SELECT * FROM visits;
+Empty set (0.00 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> alter table visits add visit_time TIME NOT NULL;
+Query OK, 0 rows affected (0.26 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 1;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 2;
+Query OK, 0 rows affected (0.01 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 3;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 4;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 5;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 6;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 7;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 8;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 9;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 10;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> SELECT * FROM visits;
+Empty set (0.01 sec)
+
+MariaDB [z1850638]> \T A5output.txt
+MariaDB [z1850638]> drop table visits;
+Query OK, 0 rows affected (0.13 sec)
+
+MariaDB [z1850638]> drop table dogs;
+Query OK, 0 rows affected (0.08 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> create table dogs(dog_id int primary key AUTO_INCREMENT, 
+    -> breed varchar(255) NOT NULL, name varchar(255) NOT NULL);
+Query OK, 0 rows affected (0.21 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> insert into dogs(beed, name) values("pitbull", "Buddy");
+ERROR 1054 (42S22): Unknown column 'beed' in 'field list'
+MariaDB [z1850638]> insert into dogs(beed, name) values("chihuahua", "killer");
+ERROR 1054 (42S22): Unknown column 'beed' in 'field list'
+MariaDB [z1850638]> insert into dogs(beed, name) values("bulldog", "Hercules");
+ERROR 1054 (42S22): Unknown column 'beed' in 'field list'
+MariaDB [z1850638]> insert into dogs(beed, name) values("gloden retreiver", "Chunk");
+ERROR 1054 (42S22): Unknown column 'beed' in 'field list'
+MariaDB [z1850638]> insert into dogs(beed, name) values("pug", "Nala");
+ERROR 1054 (42S22): Unknown column 'beed' in 'field list'
+MariaDB [z1850638]> 
+MariaDB [z1850638]> DESCRIBE dogs;
++--------+--------------+------+-----+---------+----------------+
+| Field  | Type         | Null | Key | Default | Extra          |
++--------+--------------+------+-----+---------+----------------+
+| dog_id | int(11)      | NO   | PRI | NULL    | auto_increment |
+| breed  | varchar(255) | NO   |     | NULL    |                |
+| name   | varchar(255) | NO   |     | NULL    |                |
++--------+--------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> SELECT * FROM dogs;
+Empty set (0.00 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> create table visits (visit_id int NOT NULL AUTO_INCREMENT, dog_id int NOT NULL, visit_date DATE NOT NULL, 
+    -> PRIMARY KEY(visit_id), FOREIGN KEY (dog_id) REFERENCES dogs(dog_id));
+Query OK, 0 rows affected (0.20 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (1, "2019-03-09");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (1, "2019-08-13");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (2, "2019-07-14");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (2, "2019-07-08");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (3, "2018-12-09");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (3, "2018-06-26");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (4, "2018-04-27");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (5, "2019-06-22");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (5, "2019-01-01");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> insert into visits (dog_id, visit_date) values (4, "2019-11-10");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`z1850638`.`visits`, CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`dog_id`) REFERENCES `dogs` (`dog_id`))
+MariaDB [z1850638]> 
+MariaDB [z1850638]> DESCRIBE visits;
++------------+---------+------+-----+---------+----------------+
+| Field      | Type    | Null | Key | Default | Extra          |
++------------+---------+------+-----+---------+----------------+
+| visit_id   | int(11) | NO   | PRI | NULL    | auto_increment |
+| dog_id     | int(11) | NO   | MUL | NULL    |                |
+| visit_date | date    | NO   |     | NULL    |                |
++------------+---------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> SELECT * FROM visits;
+Empty set (0.00 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> alter table visits add visit_time TIME NOT NULL;
+Query OK, 0 rows affected (0.30 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 1;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 2;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 3;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 4;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 5;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 6;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 7;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 8;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 9;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> update visits set visit_time = curtime() where visit_id = 10;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> SELECT * FROM visits;
+Empty set (0.00 sec)
+
+MariaDB [z1850638]> \T A5output.txt
+MariaDB [z1850638]> -- Drop the tables if they exist
+MariaDB [z1850638]> DROP TABLE IF EXISTS dogs;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails
+MariaDB [z1850638]> DROP TABLE IF EXISTS visits;
+Query OK, 0 rows affected (0.08 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> -- Crate the table dogs
+MariaDB [z1850638]> CREATE TABLE dogs(dog_id int NOT NULL AUTO_INCREMENT, breed varchar(20), name varchar(20), PRIMARY KEY (dog_id));
+ERROR 1050 (42S01): Table 'dogs' already exists
+MariaDB [z1850638]> 
+MariaDB [z1850638]> 
+MariaDB [z1850638]> -- Insert 5 rows to dogs
+MariaDB [z1850638]> INSERT INTO dogs (breed,name) values("Labrador","Jimmy");
+Query OK, 1 row affected (0.08 sec)
+
+MariaDB [z1850638]> INSERT INTO dogs (breed,name) values("Husky","Rupert");
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [z1850638]> INSERT INTO dogs (breed,name) values("German Shephard","Kenny");
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [z1850638]> INSERT INTO dogs (breed,name) values("Golden Retriver","Casper");
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [z1850638]> INSERT INTO dogs (breed,name) values("Great Dan","Don");
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> 
+MariaDB [z1850638]> -- Describe the table dogs
+MariaDB [z1850638]> DESCRIBE dogs;
++--------+--------------+------+-----+---------+----------------+
+| Field  | Type         | Null | Key | Default | Extra          |
++--------+--------------+------+-----+---------+----------------+
+| dog_id | int(11)      | NO   | PRI | NULL    | auto_increment |
+| breed  | varchar(255) | NO   |     | NULL    |                |
+| name   | varchar(255) | NO   |     | NULL    |                |
++--------+--------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> 
+MariaDB [z1850638]> -- Select all from table dogs
+MariaDB [z1850638]> SELECT * FROM dogs;
++--------+-----------------+--------+
+| dog_id | breed           | name   |
++--------+-----------------+--------+
+|      1 | Labrador        | Jimmy  |
+|      2 | Husky           | Rupert |
+|      3 | German Shephard | Kenny  |
+|      4 | Golden Retriver | Casper |
+|      5 | Great Dan       | Don    |
++--------+-----------------+--------+
+5 rows in set (0.00 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> 
+MariaDB [z1850638]> -- Create the table visits, add foreign key
+MariaDB [z1850638]> CREATE TABLE visits(visit_id int NOT NULL AUTO_INCREMENT,
+    -> dog_id int,
+    -> visit_date DATE,
+    -> PRIMARY KEY(visit_id),
+    -> FOREIGN KEY (dog_id) REFERENCES dogs(dog_id));
+Query OK, 0 rows affected (0.21 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> 
+MariaDB [z1850638]> -- Insert 8 values into the table
+MariaDB [z1850638]> INSERT INTO visits (dog_id, visit_date) values(1,'2004-01-22');
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [z1850638]> INSERT INTO visits (dog_id, visit_date) values(4,'2004-01-01');
+Query OK, 1 row affected (0.06 sec)
+
+MariaDB [z1850638]> INSERT INTO visits (dog_id, visit_date) values(5, '2004-01-18');
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [z1850638]> INSERT INTO visits (dog_id, visit_date) values(5, '2004-01-20');
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [z1850638]> INSERT INTO visits (dog_id, visit_date) values(2,'2004-01-30');
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [z1850638]> INSERT INTO visits (dog_id, visit_date) values(2,'2004-01-5');
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [z1850638]> INSERT INTO visits (dog_id, visit_date) values(1,'2004-01-19');
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [z1850638]> INSERT INTO visits (dog_id, visit_date) values(3,'2004-01-18');
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> 
+MariaDB [z1850638]> -- Describe visits table
+MariaDB [z1850638]> DESCRIBE visits;
++------------+---------+------+-----+---------+----------------+
+| Field      | Type    | Null | Key | Default | Extra          |
++------------+---------+------+-----+---------+----------------+
+| visit_id   | int(11) | NO   | PRI | NULL    | auto_increment |
+| dog_id     | int(11) | YES  | MUL | NULL    |                |
+| visit_date | date    | YES  |     | NULL    |                |
++------------+---------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> 
+MariaDB [z1850638]> -- Show all rows from visits
+MariaDB [z1850638]> SELECT * FROM visits;
++----------+--------+------------+
+| visit_id | dog_id | visit_date |
++----------+--------+------------+
+|        1 |      1 | 2004-01-22 |
+|        2 |      4 | 2004-01-01 |
+|        3 |      5 | 2004-01-18 |
+|        4 |      5 | 2004-01-20 |
+|        5 |      2 | 2004-01-30 |
+|        6 |      2 | 2004-01-05 |
+|        7 |      1 | 2004-01-19 |
+|        8 |      3 | 2004-01-18 |
++----------+--------+------------+
+8 rows in set (0.00 sec)
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> -- Adda new column for time of visit
+MariaDB [z1850638]> ALTER TABLE visits ADD visit_time TIME;
+Query OK, 0 rows affected (0.34 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> 
+MariaDB [z1850638]> -- Add values to th e new column
+MariaDB [z1850638]> UPDATE visits SET visit_time = '09:10:00' WHERE dog_id = 5;
+Query OK, 2 rows affected (0.05 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+MariaDB [z1850638]> UPDATE visits SET visit_time = '04:10:00' WHERE dog_id = 1;
+Query OK, 2 rows affected (0.02 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+MariaDB [z1850638]> UPDATE visits SET visit_time = '06:00:00' WHERE dog_id = 2;
+Query OK, 2 rows affected (0.03 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+MariaDB [z1850638]> UPDATE visits SET visit_time = '12:10:00' WHERE dog_id = 3;
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [z1850638]> UPDATE visits SET visit_time = '09:30:00' WHERE dog_id = 4;
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [z1850638]> 
+MariaDB [z1850638]> -- Show all rows from visits
+MariaDB [z1850638]> SELECT * FROM visits;
++----------+--------+------------+------------+
+| visit_id | dog_id | visit_date | visit_time |
++----------+--------+------------+------------+
+|        1 |      1 | 2004-01-22 | 04:10:00   |
+|        2 |      4 | 2004-01-01 | 09:30:00   |
+|        3 |      5 | 2004-01-18 | 09:10:00   |
+|        4 |      5 | 2004-01-20 | 09:10:00   |
+|        5 |      2 | 2004-01-30 | 06:00:00   |
+|        6 |      2 | 2004-01-05 | 06:00:00   |
+|        7 |      1 | 2004-01-19 | 04:10:00   |
+|        8 |      3 | 2004-01-18 | 12:10:00   |
++----------+--------+------------+------------+
+8 rows in set (0.00 sec)
+
+MariaDB [z1850638]> exit

@@ -1,0 +1,173 @@
+MariaDB [(none)]> USE z1850638
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [z1850638]> CREATE TABLE Fall (pk INT PRIMARY KEY, data CHAR(15));
+Query OK, 0 rows affected (0.27 sec)
+
+MariaDB [z1850638]> START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [z1850638]> INSERT INTO Fall VALUES (1,'dataA');
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [z1850638]> INSERT INTO Fall VALUES (2,'dataB');
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [z1850638]> INSERT INTO Fall VALUES (3,'dataC');
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [z1850638]> SELECT * FROM Fall;
+Empty set (0.00 sec)
+
+MariaDB [z1850638]> SELECT * from  Fall;
+Empty set (0.00 sec)
+
+MariaDB [z1850638]> INSERT INTO Fall VALUES(4, 'dataD');
+Query OK, 1 row affected (0.09 sec)
+
+MariaDB [z1850638]> INSERT INTO Fall VALUES(5, 'dataE');
+Query OK, 1 row affected (0.08 sec)
+
+MariaDB [z1850638]> COMMIT;
+Query OK, 0 rows affected (0.07 sec)
+
+MariaDB [z1850638]> SELECT * FROM Fall;
++----+-------+
+| pk | data  |
++----+-------+
+|  1 | dataA |
+|  2 | dataB |
+|  3 | dataC |
+|  4 | dataD |
+|  5 | dataE |
++----+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [z1850638]> \t
+MariaDB [z1850638]> SELECT * FROM Fall;
++----+-------+
+| pk | data  |
++----+-------+
+|  1 | dataA |
+|  2 | dataB |
+|  3 | dataC |
+|  4 | dataD |
+|  5 | dataE |
++----+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [z1850638]> \t
+MariaDB [(none)]> USE z1850638
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [z1850638]> START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [z1850638]> DELETE FROM Fall WHERE pk=3;
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [z1850638]> SELECT * FROM Fall;
++----+-------+
+| pk | data  |
++----+-------+
+|  1 | dataA |
+|  2 | dataB |
+|  4 | dataD |
+|  5 | dataE |
++----+-------+
+4 rows in set (0.00 sec)
+
+MariaDB [z1850638]> UPDATE Fall SET data = 'changed' WHERE pk=2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [z1850638]> UPDATE Fall SET data = 'changed 2' WHERE pk=4;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [z1850638]> INSERT INTO Fall VALUES(6, 'dataF');
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [z1850638]> SELECT * FROM Fall;
++----+-----------+
+| pk | data      |
++----+-----------+
+|  1 | dataA     |
+|  2 | changed   |
+|  4 | changed 2 |
+|  5 | dataE     |
+|  6 | dataF     |
++----+-----------+
+5 rows in set (0.00 sec)
+
+MariaDB [z1850638]> ROLLBACK;
+Query OK, 0 rows affected (0.08 sec)
+
+MariaDB [z1850638]> SELECT * FROM Fall;
++----+-------+
+| pk | data  |
++----+-------+
+|  1 | dataA |
+|  2 | dataB |
+|  3 | dataC |
+|  4 | dataD |
+|  5 | dataE |
++----+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [z1850638]> \t 
+MariaDB [(none)]> USE z1850638
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [(none)]> USE z1850638
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [z1850638]> START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [z1850638]> START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [z1850638]> UPDATE Fall SET data = 'data1A' WHERE pk =1;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [z1850638]> SET data = 'data2B' WHERE pk=2;
+ERROR 1193 (HY000): Unknown system variable 'data'
+MariaDB [z1850638]> UPDATE Fall SET data = 'data2B' WHERE pk=2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [z1850638]> UPDATE Fall SET data = 'data5E' WHERE pk =5;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [z1850638]> UPDATE Fall SET data = 'data12B' WHERE pk=1;
+ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction
+MariaDB [z1850638]> 
+MariaDB [z1850638]> \t
+MariaDB [z1850638]> SELECT * FROM Fall:
+    -> SELECT * FROM Fall;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':
+SELECT * FROM Fall' at line 1
+MariaDB [z1850638]> SELECT * FROM Fall;
++----+--------+
+| pk | data   |
++----+--------+
+|  1 | data1A |
+|  2 | dataB  |
+|  3 | dataC  |
+|  4 | dataD  |
+|  5 | data5E |
++----+--------+
+5 rows in set (0.00 sec)
+
+MariaDB [z1850638]> \t
